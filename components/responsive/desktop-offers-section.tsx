@@ -34,17 +34,17 @@ export default function DesktopOffersSection() {
         {mockOffers.map((offer) => (
           <Card
             key={offer.id}
-            className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 overflow-hidden"
+            className="group cursor-pointer hover:shadow-xl transition-shadow duration-300 overflow-hidden"
             onClick={() => handleOfferClick(offer)}
           >
             <CardContent className="p-0">
-              <div className="relative">
+              <div className="relative overflow-hidden">
                 <Image
                   src={offer.image || "/placeholder.svg"}
                   alt={offer.name}
                   width={400}
                   height={200}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <Badge className="absolute top-3 left-3 bg-red-500 text-white font-bold text-lg px-3 py-2">
                   -{offer.discount}%

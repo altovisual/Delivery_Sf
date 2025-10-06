@@ -25,18 +25,18 @@ export default function DesktopRestaurantGrid({ onRestaurantClick }: DesktopRest
         {mockRestaurants.map((restaurant) => (
           <Card
             key={restaurant.id}
-            className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 overflow-hidden"
+            className="group cursor-pointer hover:shadow-xl transition-shadow duration-300 overflow-hidden"
             onClick={() => onRestaurantClick?.(restaurant.id)}
           >
             <CardContent className="p-0">
               {/* Image Section */}
-              <div className="relative h-48">
+              <div className="relative h-48 overflow-hidden">
                 <Image
                   src={restaurant.image || "/placeholder.svg"}
                   alt={restaurant.name}
                   width={400}
                   height={192}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 {restaurant.isTurbo && <Badge className="absolute top-3 left-3 bg-green-500 text-white">Turbo</Badge>}
                 {restaurant.discount && (
