@@ -39,14 +39,23 @@ export default function CheckoutPage() {
   }
 
   const handlePlaceOrder = () => {
+    const subtotal = calculateSubtotal()
+    const deliveryFee = subtotal >= 25 ? 0 : 3.5
+    
     const newOrder = {
       id: `ORD-${Date.now().toString().slice(-6)}`,
       userId: state.user.id,
       restaurantId: state.cart[0]?.product.restaurantId || "1",
       restaurantName: "Pedido Múltiple",
       items: state.cart,
+      subtotal: subtotal,
+      deliveryFee: deliveryFee,
       total: calculateTotal(),
-      status: "confirmed",
+      customerName: deliveryInfo.name,
+      customerAddress: `${deliveryInfo.address}, ${deliveryInfo.city}`,
+      customerReference: deliveryInfo.instructions,
+      status: "nuevo" as const,
+      timestamp: new Date(),
       createdAt: new Date(),
       estimatedDelivery: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
       deliveryAddress: `${deliveryInfo.address}, ${deliveryInfo.city}`,
@@ -112,6 +121,24 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header con botón de volver */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={handleBack}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors active:scale-95"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-700" />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-lg font-bold text-gray-900">Finalizar Pedido</h1>
+            <p className="text-xs text-gray-600">
+              {currentStep === 1 ? "Información de entrega" : "Método de pago"}
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Progress Steps */}
       <div className="bg-white px-4 py-4 border-b border-gray-200 mb-4">
         <div className="flex items-center justify-center">

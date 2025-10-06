@@ -11,6 +11,16 @@ export interface Product {
   rating?: number
 }
 
+export interface Story {
+  id: string
+  type: "image" | "video"
+  url: string
+  thumbnail?: string
+  duration?: number // en segundos
+  createdAt: Date
+  productId?: string // opcional, para vincular con un producto
+}
+
 export interface Restaurant {
   id: string
   name: string
@@ -22,6 +32,8 @@ export interface Restaurant {
   distance?: string
   isPromoted: boolean
   products: Product[]
+  stories?: Story[]
+  hasActiveStories?: boolean
 }
 
 export interface CartItem {
@@ -31,6 +43,7 @@ export interface CartItem {
 
 export interface Order {
   id: string
+  userId: string
   restaurantId: string
   restaurantName: string
   items: CartItem[]
@@ -40,11 +53,29 @@ export interface Order {
   customerName: string
   customerAddress: string
   customerReference: string
-  paymentMethod: "pago-movil" | "zelle-efectivo"
+  paymentMethod: string
   paymentReference?: string
   status: "nuevo" | "aceptado" | "en-preparacion" | "listo" | "en-camino" | "entregado" | "rechazado"
   timestamp: Date
+  createdAt: Date
+  estimatedDelivery?: Date
+  deliveryAddress: string
   assignedDriver?: string
+  customerInfo?: {
+    name: string
+    phone: string
+    instructions: string
+  }
+  paymentDetails?: {
+    reference: string
+    amount: string
+    phone?: string
+  }
+  driverInfo?: {
+    name: string
+    vehicle: string
+    rating: number
+  }
 }
 
 export interface Driver {

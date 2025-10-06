@@ -32,19 +32,22 @@ export default function PremiumHeader({
         className
       )}
     >
-      <div className="flex items-center justify-between px-4 h-14 safe-area-top">
-        {/* Botón atrás */}
+      <div className="flex items-center justify-between px-4 py-3 safe-area-top">
+        {/* Botón atrás mejorado */}
         {onBack && (
           <button
             onClick={onBack}
             className={cn(
-              "w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90",
+              "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 group",
               transparent
-                ? "bg-white/90 backdrop-blur-sm shadow-lg"
-                : "bg-gray-100 hover:bg-gray-200"
+                ? "bg-white/95 backdrop-blur-md shadow-xl hover:shadow-2xl border border-white/20"
+                : "bg-gray-100 hover:bg-gray-200 hover:shadow-md"
             )}
           >
-            <ArrowLeft className="w-5 h-5 text-gray-800" />
+            <ArrowLeft className={cn(
+              "w-5 h-5 transition-transform group-hover:-translate-x-0.5",
+              transparent ? "text-gray-900" : "text-gray-800"
+            )} />
           </button>
         )}
 
@@ -55,26 +58,33 @@ export default function PremiumHeader({
           </h1>
         )}
 
-        {/* Acciones */}
+        {/* Acciones mejoradas */}
         <div className="flex items-center gap-2">
           {onFavorite && (
             <button
               onClick={onFavorite}
               className={cn(
-                "w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90",
+                "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 group relative overflow-hidden",
                 transparent
-                  ? "bg-white/90 backdrop-blur-sm shadow-lg"
-                  : "bg-gray-100 hover:bg-gray-200"
+                  ? "bg-white/95 backdrop-blur-md shadow-xl hover:shadow-2xl border border-white/20"
+                  : "bg-gray-100 hover:bg-gray-200 hover:shadow-md",
+                isFavorite && "bg-red-50 hover:bg-red-100"
               )}
             >
               <Heart
                 className={cn(
-                  "w-5 h-5 transition-all",
+                  "w-5 h-5 transition-all duration-300",
                   isFavorite
-                    ? "fill-red-500 text-red-500"
-                    : "text-gray-800"
+                    ? "fill-red-500 text-red-500 scale-110"
+                    : transparent 
+                      ? "text-gray-900 group-hover:text-red-500 group-hover:scale-110" 
+                      : "text-gray-800 group-hover:text-red-500 group-hover:scale-110"
                 )}
               />
+              {/* Efecto de pulso al estar en favoritos */}
+              {isFavorite && (
+                <span className="absolute inset-0 rounded-full bg-red-500/20 animate-ping" />
+              )}
             </button>
           )}
 
@@ -82,13 +92,16 @@ export default function PremiumHeader({
             <button
               onClick={onShare}
               className={cn(
-                "w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90",
+                "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 group",
                 transparent
-                  ? "bg-white/90 backdrop-blur-sm shadow-lg"
-                  : "bg-gray-100 hover:bg-gray-200"
+                  ? "bg-white/95 backdrop-blur-md shadow-xl hover:shadow-2xl border border-white/20"
+                  : "bg-gray-100 hover:bg-gray-200 hover:shadow-md"
               )}
             >
-              <Share className="w-5 h-5 text-gray-800" />
+              <Share className={cn(
+                "w-5 h-5 transition-all group-hover:scale-110 group-hover:rotate-12",
+                transparent ? "text-gray-900" : "text-gray-800"
+              )} />
             </button>
           )}
         </div>

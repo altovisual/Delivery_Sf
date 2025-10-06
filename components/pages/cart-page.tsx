@@ -79,6 +79,22 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header con botón de volver */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={handleBack}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors active:scale-95"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-700" />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-lg font-bold text-gray-900">Mi Carrito</h1>
+            <p className="text-xs text-gray-600">{state.cart.length} {state.cart.length === 1 ? 'producto' : 'productos'}</p>
+          </div>
+        </div>
+      </div>
+
       <div className="px-4 py-4 space-y-6">
         {/* Delivery Info */}
         <Card>

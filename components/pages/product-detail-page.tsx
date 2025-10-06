@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowLeft, Star, Heart, Share, Plus, Minus } from "lucide-react"
+import { ArrowLeft, Star, Heart, Share, Plus, Minus, TrendingDown, ShoppingCart, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useApp } from "@/lib/app-context"
+import Image from "next/image"
 
 export default function ProductDetailPage() {
   const { state, dispatch } = useApp()
@@ -95,11 +96,14 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-white pb-32">
       {/* Product Image - Full width sin espacio */}
-      <div className="relative">
-        <img
-          src={product.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop"}
+      <div className="relative bg-gray-100">
+        <Image
+          src={product.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop"}
           alt={product.name}
+          width={800}
+          height={600}
           className="w-full h-80 object-cover"
+          priority
         />
         
         {/* Botones flotantes sobre la imagen */}
@@ -123,9 +127,10 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Badge de descuento */}
+        {/* Badge de descuento mejorado */}
         {product.discount && (
-          <div className="absolute top-3 left-3 bg-red-500 text-white font-bold text-sm px-2.5 py-1 rounded-full shadow-lg">
+          <div className="absolute top-16 left-3 bg-gradient-to-br from-red-500 to-pink-600 text-white font-bold text-sm px-3 py-1.5 rounded-lg shadow-xl flex items-center gap-1.5">
+            <TrendingDown className="w-4 h-4" />
             -{product.discount}% OFF
           </div>
         )}
@@ -146,10 +151,17 @@ export default function ProductDetailPage() {
           <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">{product.category}</span>
         </div>
 
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-3xl font-bold text-green-600">${totalPrice.toFixed(2)}</span>
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6">
+          <div className="flex items-baseline gap-3 mb-1">
+            <span className="text-3xl font-bold text-green-600">${totalPrice.toFixed(2)}</span>
+            {product.originalPrice && (
+              <span className="text-lg text-gray-400 line-through">${product.originalPrice}</span>
+            )}
+          </div>
           {product.originalPrice && (
-            <span className="text-lg text-gray-400 line-through">${product.originalPrice}</span>
+            <p className="text-sm text-green-600 font-medium">
+              Ahorras ${(product.originalPrice - totalPrice).toFixed(2)} ({product.discount}%)
+            </p>
           )}
         </div>
 
@@ -157,18 +169,26 @@ export default function ProductDetailPage() {
 
         {/* Tamaño */}
         <div className="mt-6">
-          <h3 className="font-bold text-base mb-3">Tamaño</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <h3 className="font-bold text-base mb-3 flex items-center gap-2">
+            Tamaño
+            <span className="text-xs font-normal text-gray-500">(Requerido)</span>
+          </h3>
+          <div className="grid grid-cols-3 gap-3">
             {sizes.map((size) => (
               <button
                 key={size.id}
                 onClick={() => setSelectedSize(size.id)}
-                className={`py-3 px-2 rounded-lg border-2 text-center transition-all ${
+                className={`relative py-3 px-2 rounded-xl border-2 text-center transition-all ${
                   selectedSize === size.id
-                    ? "border-orange-500 bg-orange-50 text-orange-600"
-                    : "border-gray-200 bg-white text-gray-700"
+                    ? "border-red-500 bg-red-50 text-red-600 shadow-md"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                 }`}
               >
+                {selectedSize === size.id && (
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                )}
                 <div className="font-semibold text-sm">{size.name}</div>
                 <div className="text-xs mt-0.5">
                   {size.price === 0 ? "Incluido" : `${size.price > 0 ? "+" : ""}$${Math.abs(size.price)}`}
@@ -180,19 +200,35 @@ export default function ProductDetailPage() {
 
         {/* Extras */}
         <div className="mt-6">
-          <h3 className="font-bold text-base mb-3">Extras</h3>
+          <h3 className="font-bold text-base mb-3 flex items-center gap-2">
+            Extras
+            <span className="text-xs font-normal text-gray-500">(Opcional)</span>
+          </h3>
           <div className="space-y-2">
             {extras.map((extra) => (
               <label 
                 key={extra.id} 
-                className="flex items-center justify-between p-3 border border-gray-200 rounded-lg active:bg-gray-50 cursor-pointer"
+                className={`flex items-center justify-between p-3 border-2 rounded-xl cursor-pointer transition-all ${
+                  selectedExtras.includes(extra.id)
+                    ? "border-red-500 bg-red-50"
+                    : "border-gray-200 bg-white hover:border-gray-300"
+                }`}
               >
                 <div className="flex items-center gap-3">
+                  <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
+                    selectedExtras.includes(extra.id)
+                      ? "border-red-500 bg-red-500"
+                      : "border-gray-300"
+                  }`}>
+                    {selectedExtras.includes(extra.id) && (
+                      <Check className="w-3.5 h-3.5 text-white" />
+                    )}
+                  </div>
                   <input
                     type="checkbox"
                     checked={selectedExtras.includes(extra.id)}
                     onChange={() => toggleExtra(extra.id)}
-                    className="w-5 h-5 text-orange-500 rounded accent-orange-500"
+                    className="sr-only"
                   />
                   <span className="font-medium text-sm">{extra.name}</span>
                 </div>
@@ -204,34 +240,47 @@ export default function ProductDetailPage() {
 
       </div>
 
-      {/* Fixed Bottom Bar - Estilo Rappi */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50">
-        <div className="flex items-center justify-between mb-3">
+      {/* Controles de cantidad en la página */}
+      <div className="px-4 py-4">
+        <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-gray-700">Cantidad</span>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
               disabled={quantity <= 1}
-              className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center disabled:opacity-30 active:scale-95 transition-transform"
+              className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center disabled:opacity-30 active:scale-95 transition-transform"
             >
               <Minus className="w-4 h-4" />
             </button>
-            <span className="text-lg font-bold w-8 text-center">{quantity}</span>
+            <span className="text-xl font-bold w-10 text-center">{quantity}</span>
             <button
               onClick={() => setQuantity(quantity + 1)}
-              className="w-8 h-8 rounded-full border-2 border-orange-500 bg-orange-500 text-white flex items-center justify-center active:scale-95 transition-transform"
+              className="w-9 h-9 rounded-full border-2 border-red-500 bg-red-500 text-white flex items-center justify-center active:scale-95 transition-transform"
             >
               <Plus className="w-4 h-4" />
             </button>
           </div>
         </div>
+      </div>
 
+      {/* Botón flotante compacto - Estilo Rappi */}
+      <div className="fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8">
         <button
           onClick={addToCart}
-          className="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-lg font-bold text-base shadow-lg active:scale-98 transition-transform flex items-center justify-center gap-2"
+          className="group bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white pl-5 pr-6 py-3.5 rounded-full font-bold text-base shadow-2xl hover:shadow-3xl active:scale-95 transition-all flex items-center gap-3"
         >
-          <Plus className="w-5 h-5" />
-          Agregar ${(totalPrice * quantity).toFixed(2)}
+          <div className="relative">
+            <ShoppingCart className="w-6 h-6" />
+            {quantity > 0 && (
+              <div className="absolute -top-2 -right-2 w-5 h-5 bg-white text-orange-600 rounded-full flex items-center justify-center text-xs font-bold">
+                {quantity}
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col items-start">
+            <span className="text-xs opacity-90 leading-none">Ver Carrito</span>
+            <span className="text-lg font-bold leading-tight">${(totalPrice * quantity).toFixed(2)}</span>
+          </div>
         </button>
       </div>
     </div>

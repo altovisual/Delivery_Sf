@@ -18,6 +18,7 @@ import {
 import CategoryCard from "@/components/ui/category-card"
 import PromoBanner from "@/components/ui/promo-banner"
 import RestaurantCardPremium from "@/components/ui/restaurant-card-premium"
+import StoriesCarousel from "@/components/ui/stories-carousel"
 
 export default function HomeDesktopPremium() {
   const { dispatch } = useApp()
@@ -63,6 +64,9 @@ export default function HomeDesktopPremium() {
           onClick={() => dispatch({ type: "NAVIGATE", payload: "ofertas" })}
         />
       </div>
+
+      {/* Historias de Restaurantes */}
+      <StoriesCarousel restaurants={mock50Restaurants} />
 
       {/* Categorías */}
       <section>

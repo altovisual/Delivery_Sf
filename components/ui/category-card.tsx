@@ -26,33 +26,36 @@ export default function CategoryCard({
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 active:scale-95 border border-gray-100 min-w-[90px]",
+        "group relative flex flex-col items-center gap-2.5 p-3 bg-white rounded-xl hover:bg-gray-50 transition-all duration-200 active:scale-95 min-w-[72px]",
         className
       )}
     >
-      {/* Icono con fondo circular */}
+      {/* Icono con fondo circular mejorado */}
       <div className={cn(
-        "w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110",
+        "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110",
         bgColor
       )}>
         {typeof Icon === 'string' ? (
-          <span className="text-2xl">{Icon}</span>
+          <span className="text-xl">{Icon}</span>
         ) : (
-          <Icon className={cn("w-7 h-7", iconColor)} />
+          <Icon className={cn("w-6 h-6", iconColor)} />
         )}
       </div>
 
-      {/* Label */}
-      <div className="text-center">
-        <p className="text-xs font-semibold text-gray-900 line-clamp-1">
+      {/* Label mejorado */}
+      <div className="text-center w-full">
+        <p className="text-[11px] font-semibold text-gray-900 line-clamp-1 leading-tight">
           {label}
         </p>
         {count && (
-          <p className="text-[10px] text-gray-500 mt-0.5">
+          <p className="text-[10px] text-gray-500 mt-0.5 font-medium">
             {count}
           </p>
         )}
       </div>
+
+      {/* Indicador de hover sutil */}
+      <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-gray-200 transition-colors duration-200" />
     </button>
   )
 }

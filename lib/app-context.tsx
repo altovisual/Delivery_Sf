@@ -67,6 +67,7 @@ const initialState = {
   orders: [
     {
       id: "ORD-001",
+      userId: "1",
       restaurantId: "1",
       restaurantName: "Burger Palace",
       items: [
@@ -92,12 +93,15 @@ const initialState = {
       customerName: "Juan Pérez",
       customerAddress: "Av. Principal, Edificio Torre",
       customerReference: "Edificio azul, piso 3",
-      paymentMethod: "pago-movil" as const,
+      paymentMethod: "Pago Móvil",
       status: "entregado" as const,
       timestamp: new Date(Date.now() - 86400000),
+      createdAt: new Date(Date.now() - 86400000),
+      deliveryAddress: "Av. Principal, Edificio Torre, San Felipe",
     },
     {
       id: "ORD-002",
+      userId: "1",
       restaurantId: "2",
       restaurantName: "Pizza Corner",
       items: [
@@ -121,9 +125,12 @@ const initialState = {
       customerName: "Juan Pérez",
       customerAddress: "Av. Principal, Edificio Torre",
       customerReference: "Edificio azul, piso 3",
-      paymentMethod: "zelle-efectivo" as const,
+      paymentMethod: "Zelle",
       status: "en-preparacion" as const,
       timestamp: new Date(Date.now() - 1800000),
+      createdAt: new Date(Date.now() - 1800000),
+      deliveryAddress: "Av. Principal, Edificio Torre, San Felipe",
+      estimatedDelivery: new Date(Date.now() + 1200000),
     },
   ],
   searchQuery: "",

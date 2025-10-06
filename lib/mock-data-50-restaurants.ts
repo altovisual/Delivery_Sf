@@ -13,6 +13,26 @@ export const mock50Restaurants: Restaurant[] = [
     distance: "1.2 km",
     category: "Hamburguesas",
     isPromoted: true,
+    hasActiveStories: true,
+    stories: [
+      {
+        id: "s1",
+        type: "video",
+        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        thumbnail: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop",
+        duration: 8,
+        createdAt: new Date(Date.now() - 3600000),
+        productId: "p1",
+      },
+      {
+        id: "s2",
+        type: "image",
+        url: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&h=1200&fit=crop",
+        duration: 5,
+        createdAt: new Date(Date.now() - 7200000),
+        productId: "p2",
+      },
+    ],
     products: [
       {
         id: "p1",
@@ -71,6 +91,25 @@ export const mock50Restaurants: Restaurant[] = [
     distance: "3.5 km",
     category: "Hamburguesas",
     isPromoted: true,
+    hasActiveStories: true,
+    stories: [
+      {
+        id: "s3",
+        type: "video",
+        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        thumbnail: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop",
+        duration: 10,
+        createdAt: new Date(Date.now() - 1800000),
+        productId: "p4",
+      },
+      {
+        id: "s4",
+        type: "image",
+        url: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&h=1200&fit=crop",
+        duration: 5,
+        createdAt: new Date(Date.now() - 5400000),
+      },
+    ],
     products: [
       {
         id: "p4",
@@ -142,6 +181,34 @@ export const mock50Restaurants: Restaurant[] = [
     distance: "2.5 km",
     category: "Pizzas",
     isPromoted: true,
+    hasActiveStories: true,
+    stories: [
+      {
+        id: "s5",
+        type: "video",
+        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        thumbnail: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=300&h=300&fit=crop",
+        duration: 6,
+        createdAt: new Date(Date.now() - 2700000),
+        productId: "p7",
+      },
+      {
+        id: "s6",
+        type: "video",
+        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        thumbnail: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300&h=300&fit=crop",
+        duration: 7,
+        createdAt: new Date(Date.now() - 4500000),
+        productId: "p8",
+      },
+      {
+        id: "s7",
+        type: "image",
+        url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=1200&fit=crop",
+        duration: 5,
+        createdAt: new Date(Date.now() - 6300000),
+      },
+    ],
     products: [
       {
         id: "p7",

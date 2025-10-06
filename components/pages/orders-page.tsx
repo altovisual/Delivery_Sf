@@ -20,17 +20,19 @@ export default function OrdersPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "confirmed":
+      case "nuevo":
         return "bg-blue-100 text-blue-800"
-      case "preparing":
+      case "aceptado":
+        return "bg-blue-100 text-blue-800"
+      case "en-preparacion":
         return "bg-yellow-100 text-yellow-800"
-      case "ready":
+      case "listo":
         return "bg-purple-100 text-purple-800"
-      case "on-way":
+      case "en-camino":
         return "bg-orange-100 text-orange-800"
-      case "delivered":
+      case "entregado":
         return "bg-green-100 text-green-800"
-      case "cancelled":
+      case "rechazado":
         return "bg-red-100 text-red-800"
       default:
         return "bg-gray-100 text-gray-800"
@@ -39,18 +41,20 @@ export default function OrdersPage() {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case "confirmed":
-        return "Confirmado"
-      case "preparing":
+      case "nuevo":
+        return "Nuevo"
+      case "aceptado":
+        return "Aceptado"
+      case "en-preparacion":
         return "Preparando"
-      case "ready":
+      case "listo":
         return "Listo"
-      case "on-way":
+      case "en-camino":
         return "En camino"
-      case "delivered":
+      case "entregado":
         return "Entregado"
-      case "cancelled":
-        return "Cancelado"
+      case "rechazado":
+        return "Rechazado"
       default:
         return status
     }
@@ -58,15 +62,17 @@ export default function OrdersPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "confirmed":
+      case "nuevo":
         return <CheckCircle className="w-4 h-4" />
-      case "preparing":
+      case "aceptado":
+        return <CheckCircle className="w-4 h-4" />
+      case "en-preparacion":
         return <Clock className="w-4 h-4" />
-      case "ready":
+      case "listo":
         return <CheckCircle className="w-4 h-4" />
-      case "on-way":
+      case "en-camino":
         return <Truck className="w-4 h-4" />
-      case "delivered":
+      case "entregado":
         return <CheckCircle className="w-4 h-4" />
       default:
         return <Clock className="w-4 h-4" />
@@ -86,7 +92,7 @@ export default function OrdersPage() {
   }
 
   const getOrderProgress = (status: string) => {
-    const steps = ["confirmed", "preparing", "ready", "on-way", "delivered"]
+    const steps = ["nuevo", "aceptado", "en-preparacion", "listo", "en-camino", "entregado"]
     const currentIndex = steps.indexOf(status)
     return Math.max(0, currentIndex + 1)
   }
@@ -112,15 +118,25 @@ export default function OrdersPage() {
     )
   }
 
-  const activeOrders = state.orders.filter((order) => !["delivered", "cancelled"].includes(order.status))
-  const pastOrders = state.orders.filter((order) => ["delivered", "cancelled"].includes(order.status))
+  const activeOrders = state.orders.filter((order) => !["entregado", "rechazado"].includes(order.status))
+  const pastOrders = state.orders.filter((order) => ["entregado", "rechazado"].includes(order.status))
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="px-4 py-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Historial de Pedidos</h2>
-          <Badge variant="secondary">
+      {/* Header con botón de volver */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={handleBack}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors active:scale-95"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-700" />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-lg font-bold text-gray-900">Mis Pedidos</h1>
+            <p className="text-xs text-gray-600">{state.orders.length} {state.orders.length === 1 ? 'pedido' : 'pedidos'}</p>
+          </div>
+          <Badge variant="secondary" className="font-bold">
             {state.orders.length}
           </Badge>
         </div>
@@ -149,7 +165,8 @@ export default function OrdersPage() {
                     {/* Progress Bar */}
                     <div className="mb-4">
                       <div className="flex justify-between text-xs text-gray-500 mb-2">
-                        <span>Confirmado</span>
+                        <span>Nuevo</span>
+                        <span>Aceptado</span>
                         <span>Preparando</span>
                         <span>Listo</span>
                         <span>En camino</span>
@@ -158,7 +175,7 @@ export default function OrdersPage() {
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
                           className="bg-orange-500 h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${(getOrderProgress(order.status) / 5) * 100}%` }}
+                          style={{ width: `${(getOrderProgress(order.status) / 6) * 100}%` }}
                         ></div>
                       </div>
                     </div>
@@ -183,7 +200,7 @@ export default function OrdersPage() {
                       </div>
                     )}
 
-                    {order.driverInfo && order.status === "on-way" && (
+                    {order.driverInfo && order.status === "en-camino" && (
                       <div className="bg-blue-50 p-3 rounded-lg mb-3">
                         <div className="flex items-center justify-between">
                           <div>
@@ -264,7 +281,7 @@ export default function OrdersPage() {
                         </DialogContent>
                       </Dialog>
 
-                      {order.status !== "cancelled" && (
+                      {order.status !== "rechazado" && (
                         <Button size="sm" variant="outline" className="text-red-600 border-red-300">
                           <MessageCircle className="w-4 h-4 mr-1" />
                           Contactar
@@ -373,7 +390,7 @@ export default function OrdersPage() {
                         </DialogContent>
                       </Dialog>
 
-                      {order.status === "delivered" && (
+                      {order.status === "entregado" && (
                         <Button
                           size="sm"
                           variant="outline"

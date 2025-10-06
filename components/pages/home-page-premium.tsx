@@ -19,6 +19,7 @@ import CategoryCard from "@/components/ui/category-card"
 import PromoBanner from "@/components/ui/promo-banner"
 import TopPicksCarousel from "@/components/ui/top-picks-carousel"
 import RestaurantCardRappi from "@/components/ui/restaurant-card-rappi"
+import StoriesCarousel from "@/components/ui/stories-carousel"
 
 export default function HomePagePremium() {
   const { state, dispatch } = useApp()
@@ -71,6 +72,9 @@ export default function HomePagePremium() {
         </div>
       </div>
 
+      {/* Historias de Restaurantes */}
+      <StoriesCarousel restaurants={mock50Restaurants} />
+
       {/* Los 10 más elegidos - Estilo Rappi */}
       <div className="mb-6">
         <TopPicksCarousel />
@@ -87,24 +91,26 @@ export default function HomePagePremium() {
         />
       </div>
 
-      {/* Categorías */}
-      <section className="px-4 mb-8">
-        <div className="mb-4">
-          <h2 className="text-lg font-bold text-gray-900 mb-1">Explora por categoría</h2>
-          <p className="text-sm text-gray-600">Encuentra lo que necesitas rápidamente</p>
-        </div>
-        <div className="grid grid-cols-4 gap-3">
-          {categories.map((cat, index) => (
-            <CategoryCard
-              key={index}
-              icon={cat.icon}
-              label={cat.label}
-              count={cat.count}
-              bgColor={cat.bgColor}
-              iconColor={cat.iconColor}
-              onClick={() => handleCategoryClick(cat.label)}
-            />
-          ))}
+      {/* Categorías - Diseño mejorado */}
+      <section className="mb-8 bg-white">
+        <div className="px-4 pt-5 pb-4">
+          <div className="mb-4">
+            <h2 className="text-base font-bold text-gray-900">Explora por categoría</h2>
+            <p className="text-xs text-gray-600 mt-0.5">Encuentra lo que necesitas rápidamente</p>
+          </div>
+          <div className="grid grid-cols-4 gap-2.5">
+            {categories.map((cat, index) => (
+              <CategoryCard
+                key={index}
+                icon={cat.icon}
+                label={cat.label}
+                count={cat.count}
+                bgColor={cat.bgColor}
+                iconColor={cat.iconColor}
+                onClick={() => handleCategoryClick(cat.label)}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
