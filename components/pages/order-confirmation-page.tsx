@@ -40,31 +40,33 @@ export default function OrderConfirmationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      {/* Animación de éxito */}
-      <div className="text-center pt-12 pb-8 px-4">
-        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-500 mb-6 animate-bounce">
-          <CheckCircle className="w-16 h-16 text-white" />
-        </div>
-        
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          ¡Pedido Confirmado!
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Tu pedido ha sido recibido y está siendo preparado
-        </p>
-
-        {/* Número de orden destacado */}
-        <div className="inline-block bg-white rounded-2xl shadow-lg px-8 py-6 mb-8">
-          <p className="text-sm text-gray-600 mb-2">Número de orden</p>
-          <p className="text-5xl font-bold text-red-600 tracking-wider">
-            {lastOrder.id}
+    <div className="min-h-screen bg-white">
+      {/* Contenedor principal centrado */}
+      <div className="max-w-2xl mx-auto px-4 py-12 pb-32 md:pb-12">
+        {/* Animación de éxito */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-500 mb-6 animate-bounce">
+            <CheckCircle className="w-16 h-16 text-white" />
+          </div>
+          
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">
+            ¡Pedido Confirmado!
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Tu pedido ha sido recibido y está siendo preparado
           </p>
-        </div>
-      </div>
 
-      {/* Información del pedido */}
-      <div className="px-4 pb-6 space-y-4">
+          {/* Número de orden destacado */}
+          <div className="inline-block bg-white rounded-2xl shadow-lg border border-gray-100 px-8 py-6 mb-8">
+            <p className="text-sm text-gray-600 mb-2">Número de orden</p>
+            <p className="text-5xl font-bold text-red-600 tracking-wider">
+              {lastOrder.id}
+            </p>
+          </div>
+        </div>
+
+        {/* Información del pedido */}
+        <div className="space-y-4">
         {/* Tiempo estimado */}
         <Card className="border-2 border-green-200 bg-green-50">
           <CardContent className="p-4">
@@ -140,34 +142,64 @@ export default function OrderConfirmationPage() {
             </div>
           </CardContent>
         </Card>
+        </div>
+
+        {/* Botones de acción - Inline en desktop, fixed en mobile */}
+        <div className="mt-8 flex flex-col md:flex-row justify-center gap-3 md:gap-4">
+          <Button
+            onClick={shareOrder}
+            variant="outline"
+            className="border-2 border-gray-300 hover:bg-gray-50"
+          >
+            <Share2 className="w-5 h-5 mr-2" />
+            Compartir pedido
+          </Button>
+          
+          <Button
+            onClick={() => dispatch({ type: "NAVIGATE", payload: "orders" })}
+            className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white"
+          >
+            Ver mis pedidos
+          </Button>
+          
+          <Button
+            onClick={() => dispatch({ type: "NAVIGATE", payload: "home" })}
+            variant="ghost"
+          >
+            <Home className="w-5 h-5 mr-2" />
+            Volver al inicio
+          </Button>
+        </div>
       </div>
 
-      {/* Botones de acción */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 space-y-3">
-        <Button
-          onClick={shareOrder}
-          variant="outline"
-          className="w-full border-2 border-gray-300 hover:bg-gray-50"
-        >
-          <Share2 className="w-5 h-5 mr-2" />
-          Compartir pedido
-        </Button>
-        
-        <Button
-          onClick={() => dispatch({ type: "NAVIGATE", payload: "orders" })}
-          className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white"
-        >
-          Ver mis pedidos
-        </Button>
-        
-        <Button
-          onClick={() => dispatch({ type: "NAVIGATE", payload: "home" })}
-          variant="ghost"
-          className="w-full"
-        >
-          <Home className="w-5 h-5 mr-2" />
-          Volver al inicio
-        </Button>
+      {/* Botones fijos solo en mobile */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
+        <div className="flex flex-col gap-3">
+          <Button
+            onClick={shareOrder}
+            variant="outline"
+            className="w-full border-2 border-gray-300 hover:bg-gray-50"
+          >
+            <Share2 className="w-5 h-5 mr-2" />
+            Compartir pedido
+          </Button>
+          
+          <Button
+            onClick={() => dispatch({ type: "NAVIGATE", payload: "orders" })}
+            className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white"
+          >
+            Ver mis pedidos
+          </Button>
+          
+          <Button
+            onClick={() => dispatch({ type: "NAVIGATE", payload: "home" })}
+            variant="ghost"
+            className="w-full"
+          >
+            <Home className="w-5 h-5 mr-2" />
+            Volver al inicio
+          </Button>
+        </div>
       </div>
     </div>
   )
