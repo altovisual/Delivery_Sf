@@ -162,21 +162,50 @@ export default function OrdersPage() {
                       </Badge>
                     </div>
 
-                    {/* Progress Bar */}
+                    {/* Progress Bar Mejorado */}
                     <div className="mb-4">
-                      <div className="flex justify-between text-xs text-gray-500 mb-2">
-                        <span>Nuevo</span>
-                        <span>Aceptado</span>
-                        <span>Preparando</span>
-                        <span>Listo</span>
-                        <span>En camino</span>
-                        <span>Entregado</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-orange-500 h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${(getOrderProgress(order.status) / 6) * 100}%` }}
-                        ></div>
+                      <div className="relative">
+                        {/* Línea de progreso */}
+                        <div className="absolute top-5 left-0 right-0 h-1 bg-gray-200 rounded-full">
+                          <div
+                            className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-500"
+                            style={{ width: `${(getOrderProgress(order.status) / 6) * 100}%` }}
+                          ></div>
+                        </div>
+                        
+                        {/* Pasos */}
+                        <div className="relative flex justify-between">
+                          {[
+                            { label: "Nuevo", icon: "📋" },
+                            { label: "Aceptado", icon: "✅" },
+                            { label: "Preparando", icon: "👨‍🍳" },
+                            { label: "Listo", icon: "🍽️" },
+                            { label: "En camino", icon: "🛵" },
+                            { label: "Entregado", icon: "🎉" }
+                          ].map((step, index) => {
+                            const isCompleted = getOrderProgress(order.status) > index
+                            const isCurrent = getOrderProgress(order.status) === index + 1
+                            
+                            return (
+                              <div key={index} className="flex flex-col items-center">
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg mb-1 transition-all ${
+                                  isCompleted 
+                                    ? 'bg-gradient-to-br from-orange-500 to-red-500 scale-110 shadow-lg' 
+                                    : isCurrent
+                                    ? 'bg-orange-100 border-2 border-orange-500 animate-pulse'
+                                    : 'bg-gray-100 border-2 border-gray-200'
+                                }`}>
+                                  {step.icon}
+                                </div>
+                                <span className={`text-[10px] text-center leading-tight ${
+                                  isCompleted || isCurrent ? 'text-orange-600 font-semibold' : 'text-gray-500'
+                                }`}>
+                                  {step.label}
+                                </span>
+                              </div>
+                            )
+                          })}
+                        </div>
                       </div>
                     </div>
 
@@ -393,12 +422,11 @@ export default function OrdersPage() {
                       {order.status === "entregado" && (
                         <Button
                           size="sm"
-                          variant="outline"
                           onClick={() => reorderItems(order.id)}
-                          className="text-green-600 border-green-300"
+                          className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-md"
                         >
                           <RotateCcw className="w-4 h-4 mr-1" />
-                          Reordenar
+                          Volver a pedir
                         </Button>
                       )}
                     </div>

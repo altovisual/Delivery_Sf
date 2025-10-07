@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { ArrowLeft, MapPin, CreditCard, Smartphone, DollarSign, Clock, CheckCircle } from "lucide-react"
+import { useState, useEffect } from "react"
+import { ArrowLeft, MapPin, CreditCard, Smartphone, DollarSign, Clock, CheckCircle, Bookmark } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -10,12 +10,22 @@ import { useApp } from "@/lib/app-context"
 export default function CheckoutPage() {
   const { state, dispatch } = useApp()
   const [currentStep, setCurrentStep] = useState(1)
-  const [deliveryInfo, setDeliveryInfo] = useState({
-    name: state.user.name,
-    phone: state.user.phone,
-    address: state.location.address,
-    city: state.location.city,
-    instructions: "",
+  
+  // Cargar última dirección guardada
+  const [deliveryInfo, setDeliveryInfo] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('lastDeliveryInfo')
+      if (saved) {
+        return JSON.parse(saved)
+      }
+    }
+    return {
+      name: state.user.name,
+      phone: state.user.phone,
+      address: state.location.address,
+      city: state.location.city,
+      instructions: "",
+    }
   })
   const [paymentMethod, setPaymentMethod] = useState<"pago-movil" | "zelle" | "efectivo">("pago-movil")
   const [paymentDetails, setPaymentDetails] = useState({
@@ -41,6 +51,12 @@ export default function CheckoutPage() {
   const handlePlaceOrder = () => {
     const subtotal = calculateSubtotal()
     const deliveryFee = subtotal >= 25 ? 0 : 3.5
+    
+    // Guardar dirección para próximos pedidos
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lastDeliveryInfo', JSON.stringify(deliveryInfo))
+      localStorage.setItem('lastPaymentMethod', paymentMethod)
+    }
     
     const newOrder = {
       id: `ORD-${Date.now().toString().slice(-6)}`,
@@ -69,6 +85,7 @@ export default function CheckoutPage() {
     }
 
     dispatch({ type: "PLACE_ORDER", payload: newOrder })
+    dispatch({ type: "NAVIGATE", payload: "order-confirmation" })
   }
 
   const calculateSubtotal = () => {
@@ -174,9 +191,17 @@ export default function CheckoutPage() {
           <>
             <Card>
               <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <MapPin className="w-6 h-6 text-red-500" />
-                  <h2 className="text-xl font-semibold">Información de entrega</h2>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <MapPin className="w-6 h-6 text-red-500" />
+                    <h2 className="text-xl font-semibold">Información de entrega</h2>
+                  </div>
+                  {typeof window !== 'undefined' && localStorage.getItem('lastDeliveryInfo') && (
+                    <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                      <Bookmark className="w-3 h-3" />
+                      <span>Guardado</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-4">
@@ -269,55 +294,66 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-4">
-                  {/* Payment Method Selection */}
-                  <div className="grid gap-3">
+                  {/* Payment Method Selection - Mejorado */}
+                  <div className="grid grid-cols-3 gap-3">
                     <button
                       onClick={() => setPaymentMethod("pago-movil")}
-                      className={`p-4 border-2 rounded-lg text-left transition-colors ${
+                      className={`relative p-4 border-2 rounded-xl text-center transition-all ${
                         paymentMethod === "pago-movil"
-                          ? "border-red-500 bg-red-50"
-                          : "border-gray-200 hover:border-gray-300"
+                          ? "border-blue-500 bg-blue-50 shadow-md scale-105"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <Smartphone className="w-6 h-6 text-blue-600" />
-                        <div>
-                          <h3 className="font-medium">Pago Móvil</h3>
-                          <p className="text-sm text-gray-600">Transferencia desde tu banco</p>
+                      {paymentMethod === "pago-movil" && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 text-white" />
                         </div>
+                      )}
+                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
+                        <Smartphone className="w-6 h-6 text-blue-600" />
                       </div>
+                      <h3 className="font-semibold text-sm mb-1">Pago Móvil</h3>
+                      <p className="text-xs text-gray-600">Bs. Digital</p>
                     </button>
 
                     <button
                       onClick={() => setPaymentMethod("zelle")}
-                      className={`p-4 border-2 rounded-lg text-left transition-colors ${
-                        paymentMethod === "zelle" ? "border-red-500 bg-red-50" : "border-gray-200 hover:border-gray-300"
+                      className={`relative p-4 border-2 rounded-xl text-center transition-all ${
+                        paymentMethod === "zelle" 
+                          ? "border-green-500 bg-green-50 shadow-md scale-105" 
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <DollarSign className="w-6 h-6 text-green-600" />
-                        <div>
-                          <h3 className="font-medium">Zelle</h3>
-                          <p className="text-sm text-gray-600">Pago en dólares</p>
+                      {paymentMethod === "zelle" && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 text-white" />
                         </div>
+                      )}
+                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
+                        <DollarSign className="w-6 h-6 text-green-600" />
                       </div>
+                      <h3 className="font-semibold text-sm mb-1">Zelle</h3>
+                      <p className="text-xs text-gray-600">USD</p>
                     </button>
 
                     <button
                       onClick={() => setPaymentMethod("efectivo")}
-                      className={`p-4 border-2 rounded-lg text-left transition-colors ${
+                      className={`relative p-4 border-2 rounded-xl text-center transition-all ${
                         paymentMethod === "efectivo"
-                          ? "border-red-500 bg-red-50"
-                          : "border-gray-200 hover:border-gray-300"
+                          ? "border-orange-500 bg-orange-50 shadow-md scale-105"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <DollarSign className="w-6 h-6 text-gray-600" />
-                        <div>
-                          <h3 className="font-medium">Efectivo</h3>
-                          <p className="text-sm text-gray-600">Pagar al recibir</p>
+                      {paymentMethod === "efectivo" && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 text-white" />
                         </div>
+                      )}
+                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-orange-100 flex items-center justify-center">
+                        <DollarSign className="w-6 h-6 text-orange-600" />
                       </div>
+                      <h3 className="font-semibold text-sm mb-1">Efectivo</h3>
+                      <p className="text-xs text-gray-600">Al recibir</p>
                     </button>
                   </div>
 

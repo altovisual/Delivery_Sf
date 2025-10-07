@@ -22,6 +22,7 @@ import ProductDetailPage from "@/components/pages/product-detail-page"
 import CartPage from "@/components/pages/cart-page"
 import CheckoutPage from "@/components/pages/checkout-page"
 import OrdersPage from "@/components/pages/orders-page"
+import OrderConfirmationPage from "@/components/pages/order-confirmation-page"
 
 function AppContent() {
   const { state, dispatch } = useApp()
@@ -81,6 +82,8 @@ function AppContent() {
         return <CartPage />
       case "checkout":
         return <CheckoutPage />
+      case "order-confirmation":
+        return <OrderConfirmationPage />
       case "orders":
         return <OrdersPage />
       default:
