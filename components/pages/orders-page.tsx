@@ -123,47 +123,38 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header con botón de volver */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={handleBack}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors active:scale-95"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-lg font-bold text-gray-900">Mis Pedidos</h1>
-            <p className="text-xs text-gray-600">{state.orders.length} {state.orders.length === 1 ? 'pedido' : 'pedidos'}</p>
-          </div>
-          <Badge variant="secondary" className="font-bold">
-            {state.orders.length}
-          </Badge>
-        </div>
-      </div>
-
-      <div className="px-4 py-6 space-y-6">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-6 md:py-8 space-y-6 md:space-y-8">
         {/* Active Orders */}
         {activeOrders.length > 0 && (
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Pedidos activos</h2>
-            <div className="space-y-4">
+            <div className="flex items-center justify-between mb-4 md:mb-6">
+              <div>
+                <h2 className="text-lg md:text-2xl font-bold text-gray-900">Pedidos activos</h2>
+                <p className="text-sm md:text-base text-gray-600 mt-1">{activeOrders.length} {activeOrders.length === 1 ? 'pedido' : 'pedidos'} en proceso</p>
+              </div>
+              <div className="bg-orange-100 text-orange-700 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-sm md:text-base font-semibold">
+                {activeOrders.length}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
               {activeOrders.map((order) => (
-                <Card key={order.id} className="border-l-4 border-l-orange-500">
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">#{order.id}</h3>
-                        <p className="text-sm text-gray-600">{order.restaurantName}</p>
+                <Card key={order.id} className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4 md:p-5">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-bold text-base md:text-lg text-gray-900">#{order.id}</h3>
+                          <Badge className={`${getStatusColor(order.status)} text-xs md:text-sm`}>
+                            {getStatusIcon(order.status)}
+                            <span className="ml-1">{getStatusText(order.status)}</span>
+                          </Badge>
+                        </div>
+                        <p className="text-sm md:text-base text-gray-600 font-medium">{order.restaurantName}</p>
                       </div>
-                      <Badge className={getStatusColor(order.status)}>
-                        {getStatusIcon(order.status)}
-                        <span className="ml-1">{getStatusText(order.status)}</span>
-                      </Badge>
                     </div>
 
                     {/* Progress Bar Mejorado */}
-                    <div className="mb-4">
+                    <div className="mb-5 bg-gray-50 rounded-xl p-3 md:p-4">
                       <div className="relative">
                         {/* Línea de progreso */}
                         <div className="absolute top-5 left-0 right-0 h-1 bg-gray-200 rounded-full">
@@ -209,28 +200,33 @@ export default function OrdersPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm text-gray-600">
-                        {order.items.reduce((sum, item) => sum + item.quantity, 0)} productos
-                      </span>
-                      <span className="font-semibold text-green-600">${order.total.toFixed(2)}</span>
+                    <div className="flex items-center justify-between mb-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg">
+                      <div>
+                        <p className="text-xs md:text-sm text-gray-600 mb-0.5">Total del pedido</p>
+                        <span className="text-sm md:text-base text-gray-700 font-medium">
+                          {order.items.reduce((sum, item) => sum + item.quantity, 0)} productos
+                        </span>
+                      </div>
+                      <span className="text-xl md:text-2xl font-bold text-green-600">${order.total.toFixed(2)}</span>
                     </div>
 
                     {order.estimatedDelivery && (
-                      <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
-                        <Clock className="w-4 h-4" />
-                        <span>
-                          Entrega estimada:{" "}
-                          {order.estimatedDelivery.toLocaleTimeString("es-ES", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </span>
+                      <div className="flex items-center gap-2 md:gap-3 text-sm md:text-base text-gray-700 mb-4 p-3 bg-blue-50 rounded-lg">
+                        <Clock className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
+                        <div>
+                          <p className="text-xs text-gray-600">Entrega estimada</p>
+                          <span className="font-semibold">
+                            {order.estimatedDelivery.toLocaleTimeString("es-ES", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </span>
+                        </div>
                       </div>
                     )}
 
                     {order.driverInfo && order.status === "en-camino" && (
-                      <div className="bg-blue-50 p-3 rounded-lg mb-3">
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl mb-4 border border-blue-100">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="font-medium text-blue-900">Repartidor: {order.driverInfo.name}</p>
@@ -248,10 +244,10 @@ export default function OrdersPage() {
                       </div>
                     )}
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 md:gap-3">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" size="sm" className="flex-1">
+                          <Button variant="outline" size="sm" className="flex-1 md:py-2.5 md:text-base">
                             Ver detalles
                           </Button>
                         </DialogTrigger>
@@ -311,8 +307,8 @@ export default function OrdersPage() {
                       </Dialog>
 
                       {order.status !== "rechazado" && (
-                        <Button size="sm" variant="outline" className="text-red-600 border-red-300">
-                          <MessageCircle className="w-4 h-4 mr-1" />
+                        <Button size="sm" variant="outline" className="text-red-600 border-red-300 hover:bg-red-50 md:py-2.5 md:text-base">
+                          <MessageCircle className="w-4 h-4 md:w-5 md:h-5 mr-1" />
                           Contactar
                         </Button>
                       )}
@@ -327,16 +323,28 @@ export default function OrdersPage() {
         {/* Past Orders */}
         {pastOrders.length > 0 && (
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Pedidos anteriores</h2>
-            <div className="space-y-4">
+            <div className="flex items-center justify-between mb-4 md:mb-6">
+              <div>
+                <h2 className="text-lg md:text-2xl font-bold text-gray-900">Pedidos anteriores</h2>
+                <p className="text-sm md:text-base text-gray-600 mt-1">Historial de pedidos completados</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
               {pastOrders.map((order) => (
-                <Card key={order.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">#{order.id}</h3>
-                        <p className="text-sm text-gray-600">{order.restaurantName}</p>
-                        <p className="text-xs text-gray-500">
+                <Card key={order.id} className="hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4 md:p-5">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-bold text-base md:text-lg text-gray-900">#{order.id}</h3>
+                          <Badge className={`${getStatusColor(order.status)} text-xs md:text-sm`}>
+                            {getStatusIcon(order.status)}
+                            <span className="ml-1">{getStatusText(order.status)}</span>
+                          </Badge>
+                        </div>
+                        <p className="text-sm md:text-base text-gray-600 font-medium mb-1">{order.restaurantName}</p>
+                        <p className="text-xs md:text-sm text-gray-500 flex items-center gap-1">
+                          <Clock className="w-3 h-3 md:w-4 md:h-4" />
                           {order.createdAt.toLocaleDateString("es-ES", {
                             day: "numeric",
                             month: "long",
@@ -344,23 +352,19 @@ export default function OrdersPage() {
                           })}
                         </p>
                       </div>
-                      <Badge className={getStatusColor(order.status)}>
-                        {getStatusIcon(order.status)}
-                        <span className="ml-1">{getStatusText(order.status)}</span>
-                      </Badge>
                     </div>
 
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm text-gray-600">
+                    <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+                      <span className="text-sm md:text-base text-gray-700">
                         {order.items.reduce((sum, item) => sum + item.quantity, 0)} productos
                       </span>
-                      <span className="font-semibold text-green-600">${order.total.toFixed(2)}</span>
+                      <span className="text-lg md:text-xl font-bold text-green-600">${order.total.toFixed(2)}</span>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 md:gap-3">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" size="sm" className="flex-1">
+                          <Button variant="outline" size="sm" className="flex-1 md:py-2.5 md:text-base">
                             Ver detalles
                           </Button>
                         </DialogTrigger>
@@ -423,10 +427,11 @@ export default function OrdersPage() {
                         <Button
                           size="sm"
                           onClick={() => reorderItems(order.id)}
-                          className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-md"
+                          className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-md md:py-2.5 md:text-base md:px-4"
                         >
-                          <RotateCcw className="w-4 h-4 mr-1" />
-                          Volver a pedir
+                          <RotateCcw className="w-4 h-4 md:w-5 md:h-5 mr-1" />
+                          <span className="hidden md:inline">Volver a pedir</span>
+                          <span className="md:hidden">Repetir</span>
                         </Button>
                       )}
                     </div>

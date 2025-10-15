@@ -42,41 +42,41 @@ export default function OrderConfirmationPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Contenedor principal centrado */}
-      <div className="max-w-2xl mx-auto px-4 py-12 pb-32 md:pb-12">
+      <div className="max-w-2xl mx-auto px-4 md:px-8 py-12 md:py-16 pb-32 md:pb-12">
         {/* Animación de éxito */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-500 mb-6 animate-bounce">
-            <CheckCircle className="w-16 h-16 text-white" />
+        <div className="text-center mb-10 md:mb-12">
+          <div className="inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full bg-green-500 mb-6 md:mb-8 animate-bounce">
+            <CheckCircle className="w-16 h-16 md:w-20 md:h-20 text-white" />
           </div>
           
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4">
             ¡Pedido Confirmado!
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-10">
             Tu pedido ha sido recibido y está siendo preparado
           </p>
 
           {/* Número de orden destacado */}
-          <div className="inline-block bg-white rounded-2xl shadow-lg border border-gray-100 px-8 py-6 mb-8">
-            <p className="text-sm text-gray-600 mb-2">Número de orden</p>
-            <p className="text-5xl font-bold text-red-600 tracking-wider">
+          <div className="inline-block bg-white rounded-2xl md:rounded-3xl shadow-lg border border-gray-100 px-8 md:px-12 py-6 md:py-8 mb-8 md:mb-10">
+            <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-3">Número de orden</p>
+            <p className="text-5xl md:text-6xl font-bold text-red-600 tracking-wider">
               {lastOrder.id}
             </p>
           </div>
         </div>
 
         {/* Información del pedido */}
-        <div className="space-y-4">
+        <div className="space-y-4 md:space-y-5">
         {/* Tiempo estimado */}
         <Card className="border-2 border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                <Clock className="w-6 h-6 text-white" />
+          <CardContent className="p-4 md:p-6">
+            <div className="flex items-center gap-3 md:gap-4">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-green-500 flex items-center justify-center">
+                <Clock className="w-6 h-6 md:w-7 md:h-7 text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-sm text-gray-600">Tiempo estimado</p>
-                <p className="text-xl font-bold text-green-700">25-35 minutos</p>
+                <p className="text-sm md:text-base text-gray-600">Tiempo estimado</p>
+                <p className="text-xl md:text-2xl font-bold text-green-700">25-35 minutos</p>
               </div>
             </div>
           </CardContent>
@@ -84,8 +84,8 @@ export default function OrderConfirmationPage() {
 
         {/* Dirección de entrega */}
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
+          <CardContent className="p-4 md:p-6">
+            <div className="flex items-start gap-3 md:gap-4">
               <MapPin className="w-5 h-5 text-red-500 mt-1" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900 mb-1">Entregar en:</p>

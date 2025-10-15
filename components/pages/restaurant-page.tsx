@@ -46,7 +46,7 @@ export default function RestaurantPage() {
   return (
     <div className="min-h-screen bg-white pb-24">
       {/* Hero Image Grande */}
-      <div className="relative h-64">
+      <div className="relative h-64 md:h-80 lg:h-96">
         {/* Botones sobre la imagen - Mobile y Desktop */}
         <div className="absolute top-4 left-0 right-0 z-20 px-4 flex items-center justify-between">
           {/* Botón de volver */}
@@ -216,51 +216,22 @@ export default function RestaurantPage() {
       )}
 
       {/* Menú */}
-      <div className="px-4 py-6 bg-white">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">The Kings</h2>
-          <p className="text-sm text-gray-600">Los más populares de {restaurant.name}</p>
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-6 md:py-8 bg-white">
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">The Kings</h2>
+          <p className="text-sm md:text-base text-gray-600">Los más populares de {restaurant.name}</p>
         </div>
 
         {/* Grid de productos estilo Rappi */}
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {restaurant.products.map((product) => (
             <div
               key={product.id}
-              className="flex gap-4 bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-all duration-300 cursor-pointer active:scale-[0.98]"
+              className="flex md:flex-col gap-4 bg-white rounded-xl md:rounded-2xl border border-gray-100 p-4 md:p-5 hover:shadow-md transition-all duration-300 cursor-pointer active:scale-[0.98]"
               onClick={() => handleProductClick(product)}
             >
-              {/* Contenido izquierdo */}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2 leading-relaxed">
-                  {product.description}
-                </p>
-
-                {/* Precio */}
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-gray-900">
-                    $ {product.price.toFixed(3)}
-                  </span>
-                  {product.originalPrice && (
-                    <>
-                      <span className="text-sm text-gray-400 line-through">
-                        ${product.originalPrice}
-                      </span>
-                      {product.discount && (
-                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded">
-                          -{product.discount}%
-                        </span>
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Imagen derecha */}
-              <div className="relative w-32 h-32 flex-shrink-0">
+              {/* Imagen - Top on tablet/desktop, right on mobile */}
+              <div className="relative w-32 h-32 md:w-full md:h-48 flex-shrink-0 order-2 md:order-1">
                 <img
                   src={product.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&h=200&fit=crop"}
                   alt={product.name}
@@ -288,6 +259,35 @@ export default function RestaurantPage() {
                 >
                   <Plus className="w-5 h-5" />
                 </button>
+              </div>
+
+              {/* Contenido */}
+              <div className="flex-1 min-w-0 order-1 md:order-2">
+                <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">
+                  {product.name}
+                </h3>
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2 leading-relaxed">
+                  {product.description}
+                </p>
+
+                {/* Precio */}
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-bold text-gray-900">
+                    $ {product.price.toFixed(3)}
+                  </span>
+                  {product.originalPrice && (
+                    <>
+                      <span className="text-sm text-gray-400 line-through">
+                        ${product.originalPrice}
+                      </span>
+                      {product.discount && (
+                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded">
+                          -{product.discount}%
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           ))}

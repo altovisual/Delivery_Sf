@@ -95,6 +95,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-white pb-32">
+      <div className="max-w-7xl mx-auto">
       {/* Product Image - Full width sin espacio */}
       <div className="relative bg-gray-100">
         <Image
@@ -137,7 +138,9 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Product Info - Compacto estilo Rappi */}
-      <div className="px-4 py-4">
+      <div className="px-4 md:px-6 lg:px-8 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h1>
         <p className="text-sm text-gray-600 mb-3">{product.description}</p>
         
@@ -173,7 +176,7 @@ export default function ProductDetailPage() {
             Tamaño
             <span className="text-xs font-normal text-gray-500">(Requerido)</span>
           </h3>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 md:grid-cols-3 gap-3">
             {sizes.map((size) => (
               <button
                 key={size.id}
@@ -204,7 +207,7 @@ export default function ProductDetailPage() {
             Extras
             <span className="text-xs font-normal text-gray-500">(Opcional)</span>
           </h3>
-          <div className="space-y-2">
+          <div className="space-y-2 md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
             {extras.map((extra) => (
               <label 
                 key={extra.id} 
@@ -238,29 +241,32 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-      </div>
+          </div>
 
-      {/* Controles de cantidad en la página */}
-      <div className="px-4 py-4">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-700">Cantidad</span>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              disabled={quantity <= 1}
-              className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center disabled:opacity-30 active:scale-95 transition-transform"
-            >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="text-xl font-bold w-10 text-center">{quantity}</span>
-            <button
-              onClick={() => setQuantity(quantity + 1)}
-              className="w-9 h-9 rounded-full border-2 border-red-500 bg-red-500 text-white flex items-center justify-center active:scale-95 transition-transform"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
+          {/* Controles de cantidad en la página */}
+          <div className="py-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">Cantidad</span>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                  className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center disabled:opacity-30 active:scale-95 transition-transform"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-xl font-bold w-10 text-center">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-9 h-9 rounded-full border-2 border-red-500 bg-red-500 text-white flex items-center justify-center active:scale-95 transition-transform"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Botón flotante compacto - Estilo Rappi */}

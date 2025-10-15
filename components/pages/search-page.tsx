@@ -31,11 +31,11 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="px-4 py-4">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-4 md:py-6">
         {!state.searchQuery ? (
           /* Recent Searches */
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Búsquedas Recientes</h2>
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-5">Búsquedas Recientes</h2>
             <div className="space-y-3">
               {recentSearches.map((search, index) => (
                 <Card key={index} className="cursor-pointer hover:shadow-md transition-shadow">
@@ -50,8 +50,8 @@ export default function SearchPage() {
             </div>
 
             <div className="mt-8">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Categorías Populares</h2>
-              <div className="grid grid-cols-2 gap-4">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-5">Categorías Populares</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {["Comida Rápida", "Pizzas", "Farmacia", "Súper"].map((category) => (
                   <Card
                     key={category}

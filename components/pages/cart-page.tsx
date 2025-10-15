@@ -79,23 +79,10 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header con botón de volver */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={handleBack}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors active:scale-95"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-lg font-bold text-gray-900">Mi Carrito</h1>
-            <p className="text-xs text-gray-600">{state.cart.length} {state.cart.length === 1 ? 'producto' : 'productos'}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="px-4 py-4 space-y-6">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-4 md:py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
         {/* Delivery Info */}
         <Card>
           <CardContent className="p-4">
@@ -254,13 +241,60 @@ export default function CartPage() {
           </CardContent>
         </Card>
 
-        {/* Checkout Button */}
-        <Button
-          onClick={proceedToCheckout}
-          className="w-full bg-red-500 hover:bg-red-600 text-white py-4 text-lg font-semibold"
-        >
-          Proceder al Checkout • ${total.toFixed(2)}
-        </Button>
+          </div>
+
+          {/* Sidebar - Summary (Desktop/Tablet) */}
+          <div className="lg:col-span-1">
+            <div className="lg:sticky lg:top-24 space-y-6">
+              {/* Order Summary */}
+              <Card>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-lg mb-4">Resumen del pedido</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Subtotal</span>
+                      <span className="font-medium">${subtotal.toFixed(2)}</span>
+                    </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-green-600">
+                        <span>Descuento (10%)</span>
+                        <span>-${discount.toFixed(2)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Costo de envío</span>
+                      <span className={`font-medium ${deliveryFee === 0 ? "text-green-600" : ""}`}>
+                        {deliveryFee === 0 ? "Gratis" : `$${deliveryFee.toFixed(2)}`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Tarifa de servicio</span>
+                      <span className="font-medium">${serviceFee.toFixed(2)}</span>
+                    </div>
+                    {subtotal < 25 && deliveryFee > 0 && (
+                      <div className="text-xs text-gray-500 bg-blue-50 p-2 rounded">
+                        💡 Agrega ${(25 - subtotal).toFixed(2)} más para envío gratis
+                      </div>
+                    )}
+                    <Separator />
+                    <div className="flex justify-between text-lg font-bold">
+                      <span>Total</span>
+                      <span className="text-green-600">${total.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Checkout Button */}
+              <Button
+                onClick={proceedToCheckout}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-4 text-lg font-semibold"
+              >
+                Proceder al Checkout • ${total.toFixed(2)}
+              </Button>
+            </div>
+          </div>
+        </div>
 
         {/* Bottom spacing for mobile */}
         <div className="h-20 md:hidden"></div>

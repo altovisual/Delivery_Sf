@@ -65,7 +65,7 @@ export default function CategoryPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Results */}
-      <div className="px-4 py-4">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-4 md:py-6">
         <div className="mb-4">
           <p className="text-gray-600">
             {filteredRestaurants.length} resultado{filteredRestaurants.length !== 1 ? "s" : ""} encontrado
@@ -73,7 +73,7 @@ export default function CategoryPage() {
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {filteredRestaurants.map((restaurant) => (
             <Card
               key={restaurant.id}

@@ -30,7 +30,7 @@ export default function FavoritesPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Content */}
-      <div className="px-4 py-4">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-4 md:py-6">
         {favoriteRestaurants.length === 0 ? (
           <div className="text-center py-20">
             <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -41,7 +41,7 @@ export default function FavoritesPage() {
             </Button>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {favoriteRestaurants.map((restaurant) => (
               <div
                 key={restaurant.id}

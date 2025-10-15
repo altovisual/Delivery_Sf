@@ -15,31 +15,39 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(true) // Default to mobile for SSR
   const { state } = useApp()
 
   useEffect(() => {
     const checkDevice = () => {
-      setIsMobile(window.innerWidth < 768)
+      // iPads and tablets use mobile layout with tablet optimizations
+      // Support all iPad dimensions including landscape orientation
+      const width = window.innerWidth
+      const shouldBeMobile = width < 1400 // Increased to support iPad Pro landscape (1366px)
+      setIsMobile(shouldBeMobile)
     }
 
     checkDevice()
     window.addEventListener("resize", checkDevice)
-    return () => window.removeEventListener("resize", checkDevice)
+    window.addEventListener("orientationchange", checkDevice)
+    return () => {
+      window.removeEventListener("resize", checkDevice)
+      window.removeEventListener("orientationchange", checkDevice)
+    }
   }, [])
 
   if (isMobile) {
-    // Ajustar padding según la página
+    // Ajustar padding según la página - responsive para tablets
     const getPaddingTop = () => {
       if (state.currentPage === "home") return "pt-0"
-      if (state.currentPage === "category") return "pt-[120px]" // Header + chips
-      return "pt-[60px]" // Solo header simple
+      if (state.currentPage === "category") return "pt-[120px] md:pt-[140px]" // Header + chips (más alto en tablets)
+      return "pt-[60px] md:pt-[72px]" // Solo header simple (más alto en tablets)
     }
     
     return (
       <div className="min-h-screen bg-muted/30 overflow-hidden">
         <MobileHeader />
-        <div className={`h-screen ${getPaddingTop()} pb-24 overflow-y-auto mobile-main-content scrollbar-hide`} data-scroll-container>
+        <div className={`h-screen ${getPaddingTop()} pb-24 md:pb-28 overflow-y-auto mobile-main-content scrollbar-hide`} data-scroll-container>
           <PageTransition>{children}</PageTransition>
         </div>
         <MobileBottomNav />

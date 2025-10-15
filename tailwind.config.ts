@@ -12,6 +12,21 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+  		screens: {
+  			'xs': '475px',
+  			'sm': '640px',
+  			'md': '768px',
+  			'lg': '1024px',
+  			'xl': '1280px',
+  			'2xl': '1536px',
+  			// iPad specific breakpoints
+  			'ipad-mini': '744px',      // iPad Mini portrait
+  			'ipad-mini-l': '1133px',   // iPad Mini landscape
+  			'ipad': '820px',           // iPad Air portrait
+  			'ipad-l': '1180px',        // iPad Air landscape
+  			'ipad-pro': '1024px',      // iPad Pro portrait
+  			'ipad-pro-l': '1366px',    // iPad Pro landscape
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

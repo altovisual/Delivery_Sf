@@ -65,18 +65,18 @@ export default function MobileHeader() {
   if (state.currentPage === "search") {
     return (
       <div className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-        <div className="px-4 py-3">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={handleBack} className="rounded-full">
-              <ArrowLeft className="w-5 h-5" />
+        <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-3 md:py-4">
+          <div className="flex items-center gap-3 md:gap-4">
+            <Button variant="ghost" size="icon" onClick={handleBack} className="rounded-full md:w-12 md:h-12">
+              <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
             </Button>
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5" />
               <Input
                 placeholder="Buscar restaurantes, productos..."
                 value={state.searchQuery}
                 onChange={(e) => dispatch({ type: "SET_SEARCH_QUERY", payload: e.target.value })}
-                className="pl-10 bg-gray-100 border-0 rounded-full"
+                className="pl-10 md:pl-12 bg-gray-100 border-0 rounded-full text-base md:text-lg py-2 md:py-3"
                 autoFocus
               />
             </div>
@@ -132,28 +132,28 @@ export default function MobileHeader() {
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-      <div className="px-4 py-3">
-        <div className="flex items-center gap-3">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-3 md:py-4">
+        <div className="flex items-center gap-3 md:gap-4">
           {showBackButton && (
-            <Button variant="ghost" size="icon" onClick={handleBack} className="rounded-full">
-              <ArrowLeft className="w-5 h-5" />
+            <Button variant="ghost" size="icon" onClick={handleBack} className="rounded-full md:w-12 md:h-12">
+              <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
             </Button>
           )}
           
           {/* Título con icono para categorías */}
           {state.currentPage === "category" ? (
-            <div className="flex items-center gap-2 flex-1">
-              <span className="text-2xl">{getCategoryIcon(state.selectedCategory || "")}</span>
-              <h1 className="text-lg font-bold text-gray-900 capitalize">{getPageTitle()}</h1>
+            <div className="flex items-center gap-2 md:gap-3 flex-1">
+              <span className="text-2xl md:text-3xl">{getCategoryIcon(state.selectedCategory || "")}</span>
+              <h1 className="text-lg md:text-xl font-bold text-gray-900 capitalize">{getPageTitle()}</h1>
             </div>
           ) : (
-            <h1 className="text-lg font-bold text-gray-900 flex-1 truncate">{getPageTitle()}</h1>
+            <h1 className="text-lg md:text-xl font-bold text-gray-900 flex-1 truncate">{getPageTitle()}</h1>
           )}
 
           {/* Page-specific actions */}
           {state.currentPage === "category" && (
-            <Button variant="outline" size="icon">
-              <Filter className="w-4 h-4" />
+            <Button variant="outline" size="icon" className="md:w-12 md:h-12">
+              <Filter className="w-4 h-4 md:w-5 md:h-5" />
             </Button>
           )}
           
@@ -162,17 +162,17 @@ export default function MobileHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full"
+                className="rounded-full md:w-12 md:h-12"
                 onClick={() => dispatch({ type: "TOGGLE_FAVORITE", payload: String(state.selectedRestaurant!.id) })}
               >
                 <Heart
-                  className={`w-5 h-5 ios-spring ${
+                  className={`w-5 h-5 md:w-6 md:h-6 ios-spring ${
                     state.favorites.includes(String(state.selectedRestaurant.id)) ? "fill-primary text-primary" : ""
                   }`}
                 />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Share className="w-5 h-5" />
+              <Button variant="ghost" size="icon" className="rounded-full md:w-12 md:h-12">
+                <Share className="w-5 h-5 md:w-6 md:h-6" />
               </Button>
             </div>
           )}
@@ -180,9 +180,9 @@ export default function MobileHeader() {
         
         {/* Filter Chips para categorías */}
         {state.currentPage === "category" && (
-          <div className="flex gap-2 overflow-x-auto mt-3 scrollbar-hide">
+          <div className="flex gap-2 md:gap-3 overflow-x-auto mt-3 md:mt-4 scrollbar-hide">
             {["Todos", "Más Cercanos", "Mejor Calificados", "Más Rápidos", "Promociones"].map((filter) => (
-              <Button key={filter} variant="outline" size="sm" className="whitespace-nowrap rounded-full">
+              <Button key={filter} variant="outline" size="sm" className="whitespace-nowrap rounded-full md:px-5 md:py-2 md:text-base">
                 {filter}
               </Button>
             ))}

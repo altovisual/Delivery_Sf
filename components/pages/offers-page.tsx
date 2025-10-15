@@ -22,39 +22,39 @@ export default function OffersPage() {
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       {/* Header destacado */}
-      <div className="bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 px-4 pt-6 pb-8 mb-4">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-            <Flame className="w-6 h-6 text-white" />
+      <div className="bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto pt-6 md:pt-8 pb-8 md:pb-10 mb-4 md:mb-6">
+        <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <Flame className="w-6 h-6 md:w-8 md:h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Ofertas del Día</h1>
-            <p className="text-white/90 text-sm">Los mejores descuentos solo por hoy</p>
+            <h1 className="text-xl md:text-3xl font-bold text-white">Ofertas del Día</h1>
+            <p className="text-white/90 text-sm md:text-base">Los mejores descuentos solo por hoy</p>
           </div>
         </div>
         
         {/* Contador de tiempo */}
-        <div className="bg-white/20 backdrop-blur-md rounded-xl p-3 flex items-center gap-2">
-          <Clock className="w-5 h-5 text-white" />
+        <div className="bg-white/20 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 flex items-center gap-2 md:gap-4">
+          <Clock className="w-5 h-5 md:w-6 md:h-6 text-white" />
           <div className="flex-1">
-            <p className="text-white text-xs font-medium">Termina en</p>
-            <p className="text-white text-sm font-bold">23:45:12</p>
+            <p className="text-white text-xs md:text-sm font-medium">Termina en</p>
+            <p className="text-white text-sm md:text-lg font-bold">23:45:12</p>
           </div>
           <div className="text-right">
-            <p className="text-white/80 text-xs">{mockOffers.length} ofertas</p>
-            <p className="text-white text-sm font-bold">disponibles</p>
+            <p className="text-white/80 text-xs md:text-sm">{mockOffers.length} ofertas</p>
+            <p className="text-white text-sm md:text-base font-bold">disponibles</p>
           </div>
         </div>
       </div>
 
       {/* Offers Grid mejorado */}
-      <div className="px-4">
-        <div className="grid grid-cols-1 gap-4 mb-6">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-6">
           {mockOffers.map((offer, index) => (
             <div
               key={offer.id}
               onClick={() => handleOfferClick(offer)}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer group"
+              className="bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer group"
             >
               <div className="flex gap-3 p-3">
                 {/* Imagen mejorada */}

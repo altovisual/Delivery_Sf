@@ -31,8 +31,8 @@ export default function MobileBottomNav() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-border/50 px-2 py-2 z-50 shadow-lg safe-area-bottom">
-      <div className="flex items-center justify-around max-w-md mx-auto">
+    <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-border/50 px-2 md:px-4 py-2 md:py-3 z-50 shadow-lg safe-area-bottom">
+      <div className="flex items-center justify-around max-w-md md:max-w-2xl mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = state.currentPage === item.id
@@ -42,24 +42,24 @@ export default function MobileBottomNav() {
             <button
               key={item.id}
               onClick={() => handleNavigation(item.id)}
-              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl smooth-transition active-press ${
+              className={`flex flex-col items-center gap-1 md:gap-1.5 py-2 md:py-3 px-3 md:px-5 rounded-xl smooth-transition active-press ${
                 isActive ? "text-primary" : "text-muted-foreground"
               }`}
             >
               <div className="relative">
-                <div className={`p-1.5 rounded-xl smooth-transition ${isActive ? "bg-primary/10" : ""}`}>
-                  <Icon className={`w-5 h-5 smooth-transition ${isActive ? "scale-105" : ""}`} />
+                <div className={`p-1.5 md:p-2 rounded-xl smooth-transition ${isActive ? "bg-primary/10" : ""}`}>
+                  <Icon className={`w-5 h-5 md:w-6 md:h-6 smooth-transition ${isActive ? "scale-105" : ""}`} />
                 </div>
                 {count > 0 && (
                   <Badge
                     variant="destructive"
-                    className="absolute -top-1 -right-1 h-5 min-w-5 px-1 flex items-center justify-center text-xs font-bold shadow-sm"
+                    className="absolute -top-1 -right-1 h-5 md:h-6 min-w-5 md:min-w-6 px-1 md:px-1.5 flex items-center justify-center text-xs md:text-sm font-bold shadow-sm"
                   >
                     {count > 99 ? "99+" : count}
                   </Badge>
                 )}
               </div>
-              <span className={`text-xs font-semibold smooth-transition ${isActive ? "opacity-100" : "opacity-60"}`}>{item.label}</span>
+              <span className={`text-xs md:text-sm font-semibold smooth-transition ${isActive ? "opacity-100" : "opacity-60"}`}>{item.label}</span>
             </button>
           )
         })}

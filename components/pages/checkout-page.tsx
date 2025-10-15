@@ -138,27 +138,9 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header con botón de volver */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={handleBack}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors active:scale-95"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-lg font-bold text-gray-900">Finalizar Pedido</h1>
-            <p className="text-xs text-gray-600">
-              {currentStep === 1 ? "Información de entrega" : "Método de pago"}
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Progress Steps */}
-      <div className="bg-white px-4 py-4 border-b border-gray-200 mb-4">
-        <div className="flex items-center justify-center">
+      <div className="bg-white px-4 md:px-8 lg:px-12 py-4 md:py-5 border-b border-gray-200 mb-4 md:mb-6">
+        <div className="flex items-center justify-center max-w-3xl mx-auto">
           <div className="flex items-center space-x-4">
             <div className={`flex items-center ${currentStep >= 1 ? "text-red-500" : "text-gray-400"}`}>
               <div
@@ -185,7 +167,10 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="px-4 py-6 space-y-6">
+      <div className="px-4 md:px-8 lg:px-12 max-w-[1400px] mx-auto py-6 md:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
         {/* Step 1: Delivery Information */}
         {currentStep === 1 && (
           <>
@@ -295,10 +280,10 @@ export default function CheckoutPage() {
 
                 <div className="space-y-4">
                   {/* Payment Method Selection - Mejorado */}
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-4">
                     <button
                       onClick={() => setPaymentMethod("pago-movil")}
-                      className={`relative p-4 border-2 rounded-xl text-center transition-all ${
+                      className={`relative p-4 md:p-6 border-2 rounded-xl text-center transition-all ${
                         paymentMethod === "pago-movil"
                           ? "border-blue-500 bg-blue-50 shadow-md scale-105"
                           : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
@@ -309,16 +294,16 @@ export default function CheckoutPage() {
                           <CheckCircle className="w-4 h-4 text-white" />
                         </div>
                       )}
-                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
-                        <Smartphone className="w-6 h-6 text-blue-600" />
+                      <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
+                        <Smartphone className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
                       </div>
-                      <h3 className="font-semibold text-sm mb-1">Pago Móvil</h3>
-                      <p className="text-xs text-gray-600">Bs. Digital</p>
+                      <h3 className="font-semibold text-sm md:text-base mb-1">Pago Móvil</h3>
+                      <p className="text-xs md:text-sm text-gray-600">Bs. Digital</p>
                     </button>
 
                     <button
                       onClick={() => setPaymentMethod("zelle")}
-                      className={`relative p-4 border-2 rounded-xl text-center transition-all ${
+                      className={`relative p-4 md:p-6 border-2 rounded-xl text-center transition-all ${
                         paymentMethod === "zelle" 
                           ? "border-green-500 bg-green-50 shadow-md scale-105" 
                           : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
@@ -329,16 +314,16 @@ export default function CheckoutPage() {
                           <CheckCircle className="w-4 h-4 text-white" />
                         </div>
                       )}
-                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
-                        <DollarSign className="w-6 h-6 text-green-600" />
+                      <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
+                        <DollarSign className="w-6 h-6 md:w-8 md:h-8 text-green-600" />
                       </div>
-                      <h3 className="font-semibold text-sm mb-1">Zelle</h3>
-                      <p className="text-xs text-gray-600">USD</p>
+                      <h3 className="font-semibold text-sm md:text-base mb-1">Zelle</h3>
+                      <p className="text-xs md:text-sm text-gray-600">USD</p>
                     </button>
 
                     <button
                       onClick={() => setPaymentMethod("efectivo")}
-                      className={`relative p-4 border-2 rounded-xl text-center transition-all ${
+                      className={`relative p-4 md:p-6 border-2 rounded-xl text-center transition-all ${
                         paymentMethod === "efectivo"
                           ? "border-orange-500 bg-orange-50 shadow-md scale-105"
                           : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
@@ -349,11 +334,11 @@ export default function CheckoutPage() {
                           <CheckCircle className="w-4 h-4 text-white" />
                         </div>
                       )}
-                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-orange-100 flex items-center justify-center">
-                        <DollarSign className="w-6 h-6 text-orange-600" />
+                      <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 rounded-full bg-orange-100 flex items-center justify-center">
+                        <DollarSign className="w-6 h-6 md:w-8 md:h-8 text-orange-600" />
                       </div>
-                      <h3 className="font-semibold text-sm mb-1">Efectivo</h3>
-                      <p className="text-xs text-gray-600">Al recibir</p>
+                      <h3 className="font-semibold text-sm md:text-base mb-1">Efectivo</h3>
+                      <p className="text-xs md:text-sm text-gray-600">Al recibir</p>
                     </button>
                   </div>
 
@@ -442,8 +427,14 @@ export default function CheckoutPage() {
                 </div>
               </CardContent>
             </Card>
+          </>
+        )}
 
-            {/* Order Summary */}
+          </div>
+
+          {/* Sidebar - Order Summary (Desktop/Tablet) */}
+          <div className="lg:col-span-1">
+            <div className="lg:sticky lg:top-24 space-y-6">
             <Card>
               <CardContent className="p-6">
                 <h3 className="font-semibold text-lg mb-4">Resumen del pedido</h3>
@@ -469,21 +460,24 @@ export default function CheckoutPage() {
               </CardContent>
             </Card>
 
-            <Button
-              onClick={handlePlaceOrder}
-              className="w-full bg-red-500 hover:bg-red-600 text-white py-4 text-lg font-semibold"
-              disabled={
-                paymentMethod !== "efectivo" &&
-                (!paymentDetails.reference ||
-                  !paymentDetails.amount ||
-                  (paymentMethod === "pago-movil" && !paymentDetails.phone))
-              }
-            >
-              <CheckCircle className="w-5 h-5 mr-2" />
-              Confirmar Pedido • ${calculateTotal().toFixed(2)}
-            </Button>
-          </>
-        )}
+            {currentStep === 2 && (
+              <Button
+                onClick={handlePlaceOrder}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-4 text-lg font-semibold"
+                disabled={
+                  paymentMethod !== "efectivo" &&
+                  (!paymentDetails.reference ||
+                    !paymentDetails.amount ||
+                    (paymentMethod === "pago-movil" && !paymentDetails.phone))
+                }
+              >
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Confirmar Pedido • ${calculateTotal().toFixed(2)}
+              </Button>
+            )}
+            </div>
+          </div>
+        </div>
 
         {/* Bottom spacing for mobile */}
         <div className="h-20 md:hidden"></div>
